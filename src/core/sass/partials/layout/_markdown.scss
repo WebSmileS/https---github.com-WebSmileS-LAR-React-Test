@@ -1,0 +1,61 @@
+/*  ==================================================================  *\
+    Html Output (Markdown)
+\*  ==================================================================  */
+
+.html-output {
+    word-break: break-word;
+    p, ul, ol, dl, blockquote, pre, table {
+        &:last-child {
+            margin: 0;
+        }
+    }
+    li {
+        margin-bottom: 0;
+    }
+    blockquote {
+        border-color: $color-purple;
+        color: rgba($color-black, 0.5);
+    }
+    &.comments__content {
+        font-size: $milli-size;
+    }
+    &.comments__content--with-timetracker {
+        code {
+            background: $color-purple;
+        }
+        .icon {
+            margin: -2px 2px 0 -2px;
+            width: 17px;
+            height: 17px;
+            line-height: 17px;
+        }
+    }
+    .markdown_mention {
+        color: $color-purple;
+    }
+}
+
+/* Formatt normalize */
+// Use helper below if you need normalize html styles for inline elements
+
+.card-formatt {
+    h1, h2, h3, h4, h5, h6,
+    p, ol, ul, li, dl, dt, dd, blockquote, pre, table {
+        margin: 0;
+        padding: 0;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-size: inherit;
+        font-weight: 400;
+    }
+    ol, ul, li {
+        list-style: none;
+    }
+}
+
+/* Html strip */
+// Use helper below if you need strip all html styles
+
+.html-strip {
+    // TODO
+}

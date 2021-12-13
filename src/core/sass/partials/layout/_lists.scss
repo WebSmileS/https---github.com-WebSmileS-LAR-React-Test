@@ -1,0 +1,620 @@
+/*  ==================================================================  *\
+    Dashboard & Lists
+\*  ==================================================================  */
+
+$list-header-height: $google-spacing * 7;
+// $total-height :1000px;
+
+.board {
+    position: relative;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+
+    //.page--archive &,
+    .page--teamworkload & {
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+
+    &.board--blocked {
+        overflow-x: hidden;
+    }
+}
+
+.board-view {
+    // height: 100%;
+    @include transition;
+
+    &.board-view--invisible {
+        opacity: 0;
+        visibility: 0;
+    }
+    width: 98.5%;
+    height:auto;
+}
+
+/* Board Lists  */
+
+.lists {
+    position: relative;
+    display: flex;
+    height: 100%;
+    padding: 0 $google-spacing * 2;
+}
+
+.list {
+    position: relative;
+    flex: 0 0 auto;
+    width: $half-base-spacing * 31.6; // 310 px – new base width for card lists
+    height: 100%;
+    @include transition;
+    transition-property: background;
+    transition-duration: 200ms;
+    border-top-left-radius: $base-radius;
+    border-top-right-radius: $base-radius;
+
+    .page--lists-bg & {
+        background: calc-color(fade, $color-white, 20);
+    }
+
+    .page--lists-bg & + &  {
+        margin-left: $google-spacing * 2;
+    }
+
+    .page--lists-bg.page--theme-decorated.page--classic & {
+        background: calc-color(fade, $color-white, 10);
+
+        &.list--active,
+        &.list--hovered {
+            background: calc-color(fade, $color-white, 20);
+        }
+    }
+
+    &.list--active,
+    &.list--hovered {
+        background: calc-color(fade, $color-white, 40);
+    }
+
+    &.list--folded {
+        position: relative;
+        width: $base-spacing * 3; // 60px
+        .cards,
+        .new-card {
+            display: none;
+        }
+        .list__header {
+            flex-direction: column;
+            align-items: baseline;
+            height: 300px;
+            padding: 0;
+            overflow: hidden;
+            width: auto;
+        }
+        .list__title {
+            transform: rotate(-90deg);
+            width: $half-base-spacing * 30;
+            height: $half-base-spacing * 30;
+            margin: 0;
+            padding: 0 $google-spacing * 9.5 0 $half-base-spacing;
+            line-height: $base-spacing * 3;
+            text-align: right;
+        }
+        .list__icon + .list__title {
+            margin: 0;
+        }
+        .list__counter,
+        .filter-list__counter {
+            position: absolute;
+            top: $google-spacing * 3.75;
+            right: 0;
+            left: 0;
+            text-align: center;
+        }
+    }
+
+    &.list--sorted {
+        z-index: 100;
+        background-color: $color-background;
+        @include material-shadow($z-depth: 5);
+        cursor: grab;
+    }
+    &:focus {
+        outline: none;
+    }
+    &.draggable-source--is-dragging {
+        opacity: 0.5;
+    }
+}
+
+.list.list--new {
+    padding: $google-spacing * 2 $google-spacing * 4 $google-spacing * 2 $google-spacing * 2;
+    background: none !important;
+
+    .board--with-filter-panel:not(.board--with-filter-panel--disabled) &,
+    .board--with-filter-panel--search & {
+        display: none;
+    }
+}
+
+.list__new-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $google-spacing * 5;
+    color: $color-base;
+    background: calc-color(fade, $color-base, 10);
+    border-radius: $base-radius;
+    cursor: pointer;
+    @include transition;
+
+    .list__new-button-icon {
+        color: calc-color(fade, $color-base, 90);
+        opacity: .3;
+        @include transition;
+    }
+
+    .list__new-button-text {
+        margin-left: $google-spacing;
+        opacity: .6;
+        @include transition;
+    }
+
+    &:hover {
+        .list__new-button-icon,
+        .list__new-button-text {
+            opacity: 1;
+        }
+    }
+
+    .page--theme-decorated.page--classic & {
+        color: $color-white;
+        background: calc-color(fade, $color-white, 30);
+
+        &:hover {
+            background: calc-color(fade, $color-white, 50);
+        }
+
+        .list__new-button-icon {
+            color: $color-white;
+            opacity: 1;
+        }
+
+        .list__new-button-text {
+        opacity: .9;
+        }
+    }
+}
+
+.list__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: $card-width + $google-spacing * 3.5;
+    height: $list-header-height;
+    padding: $google-spacing * 2 $google-spacing * 1.5 $google-spacing $google-spacing * 2;
+    cursor: pointer;
+    //&:hover {
+    //    cursor: pointer;
+    //}
+    //.list--sorted &:hover {
+    //    cursor: move;
+    //}
+}
+
+.list__counter {
+    color: calc-color(fade, $color-base, 50);
+    @include transition;
+
+    .page--theme-decorated.page--classic & {
+        color: $color-white;
+    }
+
+    //.list:hover & {
+    //    color: $color-base;
+    //}
+    &.list__counter--filled {
+        color: $color-orange;
+    }
+    &.list__counter--overfilled {
+        color: $color-red;
+    }
+    .no-touch .list--hovered &,
+    .board--with-filter-panel &,
+    .no-touch .board--with-filter-panel.board--with-filter-panel--disabled .list--hovered &,
+    .board--with-filter-panel--search & {
+        display: none;
+    }
+    .board--with-filter-panel.board--with-filter-panel--disabled & {
+        display: block;
+    }
+}
+
+.filter-list__counter {
+    display: none;
+    @include transition;
+    .no-touch .list--hovered &,
+    .no-touch .board--with-filter-panel .list--hovered,
+    .board--with-filter-panel.board--with-filter-panel--disabled & {
+        display: none;
+    }
+    .board--with-filter-panel &,
+    .board--with-filter-panel--search & {
+        display: block;
+    }
+    
+    .filter-list__count {
+        color: $color-white;
+        padding: 1px 3px;
+        border-radius: $small-radius;
+        background-color: $color-base;
+    }
+}
+
+.list__fold {
+    display: none;
+    margin: 0;
+    width: 0;
+    height: 0;
+    color: calc-color(fade, $color-base, 50);
+    @include transition(color);
+
+    .page--theme-decorated.page--classic & {
+        color: $color-white;
+    }
+
+    &:hover {
+        color: $color-base;
+    }
+    .touch & {
+        margin-left: $google-spacing;
+    }
+    .touch &,
+    .list--hovered & {
+        display: block;
+        width: $base-spacing;
+        height: $base-spacing;
+    }
+    .list--folded & {
+        position: absolute;
+        top: $google-spacing * 4;
+        left: $base-spacing;
+        width: $base-spacing;
+        height: $base-spacing;
+        margin: 0;
+    }
+    .touch .list--folded & {
+        top: $google-spacing;
+    }
+}
+
+.icon--expand-list {
+    display: none;
+    .list--folded & {
+        display: block;
+    }
+}
+
+.list--folded {
+    .icon--fold-list,
+    .list__icon,
+    .list__new-card-plus {
+        display: none;
+    }
+    .list__title {
+        margin: 0;
+    }
+
+}
+
+.list__title {
+    @extend .text-ellipsis;
+    width: 100%;
+    margin: 0;
+    padding-right: $half-base-spacing / 2;
+    font-size: $h5-size;
+    font-weight: bold;
+    color: $color-base;
+    @include transition(color);
+
+    .page--theme-decorated.page--classic & {
+        color: $color-white !important;
+    }
+
+    .list__counter + &,
+    .filter-list__counter + & {
+        padding-right: $base-spacing * 2;
+    }
+
+    .list__icon:not(.hidden) + & {
+        padding-left: $half-base-spacing;
+    }
+}
+
+.list__unsaved-cover {
+    @extend .unsaved-cover;
+    z-index: 1;
+}
+
+.cards {
+    position: relative;
+    height: 100%;
+    min-height: $base-spacing * 2;
+    max-height: calc(100% - #{$list-header-height});
+    margin: 0;
+    padding: 0 $google-spacing * 1.5 0 $google-spacing * 2;
+    overflow-y: auto;
+    overflow-x: hidden;
+    backface-visibility: hidden;
+    scroll-behavior: smooth;
+    @include transition(max-height);
+    -webkit-overflow-scrolling: touch;
+
+    .list--new-card-opened & {
+        max-height: calc(100% - #{$google-spacing * 6.5 + $list-header-height});
+    }
+
+    &:before,
+    &:after {
+        display: none;
+        content: '';
+        position: absolute;
+        z-index: -1;
+        right: $base-spacing - 5;
+        left: $base-spacing - 5;
+        height: $half-base-spacing / 2;
+    }
+    //&:before {
+    //    top: $half-base-spacing * 5;
+    //    background: radial-gradient(ellipse at top, calc-color(fade, $color-base, 35) 0%, calc-color(fade, $color-base, 0) 75%);
+    //    box-shadow: inset 0 1px calc-color(fade, $color-base, 10);
+    //}
+    //&:after {
+    //    bottom: $base-spacing * 3;
+    //    background: radial-gradient(ellipse at bottom, calc-color(fade, $color-base, 35) 0%, calc-color(fade, $color-base, 0) 75%);
+    //    box-shadow: inset 0 -1px calc-color(fade, $color-base, 10);
+    //}
+    // .board--with-filter-panel &:after {
+    //     bottom: $base-spacing * 5; // 100px
+    // }
+
+    
+    &.cards--has-scroll {
+        &:before,
+        &:after {
+            display: block;
+            z-index: $z-cardinfo;
+        }
+        &.cards--scroll-top {
+            &:before {
+                visibility: hidden;
+                pointer-events: none;
+            }
+        }
+        &.cards--scroll-bottom {
+            &:after {
+                visibility: hidden;
+                pointer-events: none;
+            }
+        }
+    }
+    &.cards--empty {
+        position: absolute;
+        width: 100%;
+    }
+    .list--sorted & {
+        pointer-events: none;
+    }
+
+    .ncard {
+        margin-bottom: $half-base-spacing;
+    }
+}
+
+/* Add New card */
+
+.list__new-card {
+    position: relative;
+    z-index: $z-fold;
+}
+
+.new-card {
+    position: relative;
+    margin: 0 0 0 $google-spacing * 2;
+    width: $card-width;
+    line-height: 0;
+}
+
+.new-card__button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: $google-spacing * 5;
+    padding-right: $google-spacing;
+    height: $google-spacing * 5;
+    line-height: $google-spacing * 5;
+    color: $color-purple;
+    font-size: $nano-size;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transform: scale(0);
+    @include transition;
+}
+
+.new-card__input {
+    pointer-events: none;
+    margin: 0;
+    height: 0;
+    line-height: 0;
+    padding: 0 $google-spacing * 5 0 $google-spacing;
+    width: $card-width;
+    border-radius: $base-radius;
+    border: 0px solid transparent;
+    @include transition;
+
+    .first-tutorial__input &,
+    &:focus {
+        pointer-events: all;
+        margin-bottom: $google-spacing * 1.5;
+        height: $google-spacing * 5;
+        padding-top: $google-spacing;
+        padding-bottom: $google-spacing;
+        border: 2px solid $color-purple;
+        box-shadow: none;
+
+        & + .new-card__button:not(.new-card__button--hidden) {
+            transform: scale(1);
+        }
+    }
+}
+
+.list__new-card-plus {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: $google-spacing * 4;
+    min-width: $google-spacing * 4;
+    height: $google-spacing * 4;
+    margin-left: $google-spacing;
+    color: calc-color(fade, $color-base, 60);
+    background: calc-color(fade, $color-base, 10);
+    border-radius: $base-radius;
+    @include transition;
+
+    .board--with-filter-panel:not(.board--with-filter-panel--disabled) &,
+    .board--with-filter-panel--search &,
+    .list--new-card-opened & {
+        display: none;
+    }
+
+    &:hover {
+        color: calc-color(fade, $color-base, 90);
+    }
+
+    .list__new-card-plus-icon {
+        width: $google-spacing * 3;
+        height: $google-spacing * 3;
+        @include transition;
+    }
+
+    .page--theme-decorated.page--classic & {
+        color: $color-white;
+        background: calc-color(fade, $color-white, 30);
+
+        &:hover {
+            background: calc-color(fade, $color-white, 50);
+        }
+    }
+}
+
+.list__new-card-plus-cancel {
+    display: none;
+
+    .list--new-card-opened & {
+        display: inline-flex;
+    }
+
+    .list__new-card-plus-icon {
+        transform: rotate(45deg);
+    }
+}
+
+.dummy--archive-lists {
+    display: none;
+}
+
+.list--archive,
+.list--template {
+    display: none;
+}
+
+.board-view--archive {
+    .list.list--empty,
+    .list--new,
+    .list__maxnum,
+    .list__new-card-plus,
+    .list__new-card {
+        display: none;
+    }
+    .list--archive {
+        display: block;
+    }
+    .list__counter.list__counter--overfilled {
+        color: calc-color(fade, $color-base, 50);
+    }
+    &-empty {
+        .dummy--archive-lists {
+            display: flex;
+        }
+    }
+}
+
+.list--empty {
+    .cards {
+        &:before {
+            content: '';
+            display: block;
+            width: $card-width;
+            border-top: 1px solid calc-color(fade, $color-base, 20);
+
+            .page--theme-decorated.page--classic & {
+                border-color: calc-color(fade, $color-white, 20);
+            }
+        }
+    }
+
+    .list__counter {
+        display: none;
+    }
+}
+
+.cards--droppable {
+    margin-left: $google-spacing * 2;
+    padding: 0;
+    width: calc(100% - #{$google-spacing * 3.5});
+    max-height: calc(100% - #{$google-spacing * 10});
+    background: calc-color(fade, $color-base, 5);
+}
+
+.ncard--draggable-is-dragging,
+.list.ncard--draggable-container-placed {
+    .cards--empty {
+        @extend .cards--droppable;
+        width: $card-width;
+
+        &:before {
+            display: none;
+        }
+    }
+}
+
+.list__icon {
+    .page--theme-decorated.page--classic & {
+        color: $color-white;
+    }
+}
+
+.page--related-panel {
+    .list--empty,
+    .list--new,
+    .list__new-card,
+    .list__new-card-plus {
+        display: none;
+    }
+}
+
+.board--perm-readonly {
+    .list__new-card,
+    .list__new-card-plus {
+        display: none;
+    }
+}
+
+@media (max-width: $media-tablet) {
+	.lists {
+        padding: 0;
+    }
+    .list.list--new {
+        padding-right: $google-spacing * 2;
+    }
+}

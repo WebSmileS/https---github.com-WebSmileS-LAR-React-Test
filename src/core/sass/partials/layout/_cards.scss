@@ -1,0 +1,355 @@
+/*  ==================================================================  *\
+    Board Cards
+\*  ==================================================================  */
+
+.card {
+    position: relative;
+    border-radius: $base-radius;
+    margin-bottom: $half-base-spacing;
+    border: 1px solid transparent;
+    background: $color-white;
+    @include transition;
+
+    &.card--multiselected {
+        border-color: $color-blue !important;
+    }
+    &.card--sorted {
+        @include material-shadow($z-depth: 5);
+    }
+    word-wrap: break-word;
+    &:not(.card--subcard):last-child {
+        margin-bottom: 1px; // because there is a box-shadow
+    }
+    &.card--subcard:first-child {
+        margin-top: $half-base-spacing / 2;
+    }
+    &.card--subcard:last-child {
+        margin-bottom: 4px; // because there is a box-shadow
+    }
+    &.card--with-collaborator:last-child {
+        margin-bottom: 6px; // because there is a collaborator(s)
+    }
+    &.card--with-background {
+        a {
+            color: $color-base;
+            &:hover {
+                color: $color-base;
+            }
+        }
+        .icon--crown {
+            background: $color-white;
+        }
+    }
+}
+
+.card__inner {
+    @include clearfix;
+    position: relative;
+    z-index: $z-cardinfo;
+    display: block;
+    border-radius: $base-radius;
+    text-decoration: none;
+    cursor: pointer;
+    .card--sorted & {
+        outline: none;
+        cursor: move;
+    }
+    &:focus {
+        outline: none;
+    }
+    &, &:hover {
+        color: $color-base;
+    }
+}
+
+.card__info {
+    margin-left: $half-base-spacing * 3/2;
+    &.card__info--top {
+        margin-top: $base-spacing / 2;
+        font-size: $nano-size;
+    }
+    &.card__info--bottom {
+        margin-bottom: $base-spacing / 2;
+    }
+}
+
+.card__info-list {
+    position: relative;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.card__info-item {
+    @extend .text-ellipsis;
+    max-width: $base-spacing * 4;//TO ESTIMATE LOOK WELL
+    margin: 0;
+    margin-right: $half-base-spacing;
+    font-size: $nano-size;
+    color: calc-color(tint, $color-base, 50);
+    &:last-child {
+        margin-right: 0;
+    }
+    .card--with-background & {
+        color: $color-base;
+    }
+}
+
+.card__info-item--clock {
+    max-width: $half-base-spacing * 17;
+    &.card--expired {
+        color: $color-red;
+    }
+}
+
+.card__info-item--color {
+    position: relative;
+    max-width: $base-spacing * 6;
+    padding-right: $half-base-spacing + 5;
+    padding-left: $half-base-spacing + 5;
+    margin-left: -($half-base-spacing + 6);
+    .card--color-base & {
+        display: none;
+    }
+    .card--color-red & {
+        background: $color-red;
+        color: calc-text-color($color-red);
+    }
+    .card--color-green & {
+        background: $color-green;
+        color: calc-text-color($color-green);
+    }
+    .card--color-blue & {
+        background: $color-blue;
+        color: calc-text-color($color-blue);
+    }
+    .card--color-yellow & {
+        background: $color-yellow;
+        color: calc-text-color($color-yellow);
+    }
+    .card--color-orange & {
+        background: $color-orange;
+        color: calc-text-color($color-orange);
+    }
+    .card--color-pink & {
+        background: $color-pink;
+        color: calc-text-color($color-pink);
+    }
+    .card--color-purple & {
+        background: $color-purple;
+        color: calc-text-color($color-purple);
+    }
+    .card--color-cyan & {
+        background: $color-cyan;
+        color: calc-text-color($color-cyan);
+    }
+    .card--color-lime & {
+        background: $color-lime;
+        color: calc-text-color($color-lime);
+    }
+    .card--color-sky & {
+        background: $color-sky;
+        color: calc-text-color($color-sky);
+    }
+    .card--color-black & {
+        background: $color-trelloBlack;
+        color: calc-text-color($color-trelloBlack);
+    }
+}
+
+.card__info-item--color-corner {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-right: $half-base-spacing / 2 solid $color-white;
+    border-top: $half-base-spacing solid transparent;
+    border-bottom: $half-base-spacing solid transparent;
+}
+
+.card__info-item--attach {
+    .svg-icon {
+        top: -2px;
+        margin: 0;
+    }
+}
+
+.card__title-and-tags {
+    display: block;
+    padding: $half-base-spacing/2 $base-spacing - 5;
+}
+
+.card__title {
+    @extend .card-formatt;
+    vertical-align: middle;
+    pre {
+        padding: 0 $half-base-spacing / 2;
+    }
+    blockquote {
+        padding-left: $half-base-spacing;
+    }
+    .card--epic > .card__inner & {
+        font-size: $h5-size;
+    }
+}
+
+// Card Tags
+
+.card__tags {
+    @extend .text-ellipsis;
+    height: $google-spacing * 2;
+ 
+    &-item {
+        @extend .text-ellipsis;    
+        max-width: calc(50% - 3px);
+        height: $google-spacing * 2;  
+        position: relative;
+        font-size: $piko-size;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: $color-base;
+
+        &:not(:last-child) {
+            margin-right: $google-spacing;
+        }
+        &:before {
+            content: '#';
+        }
+    }
+    .card__tags-item {
+        display: inline-block;
+    }
+}
+
+.card--placeholder {
+    border: 1px dashed calc-color(fade, $color-base, 30);
+    background: none;
+    box-shadow: none;
+    max-height: $half-base-spacing * 30;
+    border-radius: $small-radius;
+}
+
+.card__unsaved-cover {
+    @extend .unsaved-cover;
+}
+
+.card__main-doc {
+    box-shadow: inset 0 -1px calc-color(fade, $color-base, 10);
+    position: relative;
+    .card--sorted & {
+        cursor: move;
+    }
+}
+
+.card__main-doc-handler {
+    @extend .text-ellipsis;
+    padding: $half-base-spacing ($half-base-spacing * 1.5) $half-base-spacing ($half-base-spacing * 3.5);
+    display: inline-block;
+    background-position: $half-base-spacing * 1.5;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    .card__main-doc:hover:not(.card__main-doc--picture-small) & {
+        padding-right: $base-spacing * 2;
+    }
+}
+
+.card__main-doc-download {
+    display: none;
+    width: $base-spacing * 2;
+    height: $base-spacing * 2;
+    position: absolute;
+    right: $half-base-spacing / 2;
+    padding: $half-base-spacing;
+    top: 0;
+    color: calc-color(fade, $color-base, 30);
+    &:hover {
+        color: calc-color(fade, $color-base, 50);
+    }
+    .card__main-doc:hover & {
+        display: inline-block !important;
+        visibility: inherit;
+    }
+}
+
+.card__main-image {
+    padding: 0;
+    cursor: pointer;
+    max-height: 380px;
+    overflow: hidden;
+    border-radius: $base-radius $base-radius 0 0;
+    min-height: 50px;
+    text-align: center;
+    background: $color-white url(#{$images-path}/thumb-bg.png);
+    position: relative;
+
+    &.card__main-image--toll {
+        &:after {
+            content: '';
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            position: absolute;
+            background: url(#{$images-path}/image-tall-divider.png) 50% 50% repeat-x;
+        }
+    }
+}
+
+.card__main-helper {
+    height: 100%;
+    min-height: 50px;
+    vertical-align: middle;
+}
+
+.card__main-picture {
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+/* Color tag*/
+// .card__color-tag {
+//     position: absolute;
+//     left: 0;
+//     top: 10px;
+//     height: 20px;
+//     min-width: 15px;
+//     padding-right: 10px;
+//     padding-left: 10px;
+// }
+// .card__color-tag-name {
+//     position: relative;
+//     line-height: 20px;
+//     padding-right: 5px;
+// }
+// .card__color-tag-corner {
+//     display: block;
+//     position: absolute;
+//     top: 0;
+//     right: 0;
+//     width: 0;
+//     height: 0;
+//     border-right: 5px solid $color-white;
+//     border-top: 10px solid transparent;
+//     border-bottom: 10px solid transparent;
+// }
+
+.card--subcard {
+    margin: $half-base-spacing ($half-base-spacing / 2);
+    &:not(.card--sorted):after {
+        content: '';
+        position: absolute;
+        top: -($half-base-spacing / 2);
+        right: -($half-base-spacing / 2);
+        bottom: -($half-base-spacing / 2);
+        left: -($half-base-spacing / 2);
+        border: 4px solid calc-color(fade, $color-base, 10);
+        border-radius: $big-radius;
+    }
+}
+
+.card--active {
+    border: 2px solid $color-purple;
+}

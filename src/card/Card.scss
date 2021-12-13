@@ -1,0 +1,1019 @@
+@import '../core/sass';
+
+$card-width: $google-spacing * 34.5;
+$stripColor: calc-color(fade, $color-base, 5);
+
+.k-card__container {
+    position: relative;
+    width: $card-width !important;
+    padding-left: $google-spacing * 2;
+
+&.k-card__container--dragging {
+.k-card {
+    border-color: calc-color(fade, $color-base, 0) !important; // hide collaborators
+box-shadow: $shadow-hover; // hide selected
+}
+
+.k-card__state { // hide collaborators
+opacity: 0;
+    pointer-events: none;
+}
+}
+&.k-card__container--multiple-dragging {
+&.k-card__container--more-two-items:before,
+&:after {
+     position: absolute;
+     display: block;
+     width: 100%;
+     height: $google-spacing * 3;
+     bottom: -$google-spacing * 0.5;
+     content: ' ';
+     background: $color-white;
+     border: 1px solid calc-color(fade, $color-base, 15);
+     border-radius: 0 0 $base-radius $base-radius;
+     z-index: -1;
+     box-shadow: $shadow-hover;
+ }
+&.k-card__container--more-two-items:before {
+     bottom: -$google-spacing * 2;
+ }
+}
+}
+
+.k-card__container__cards-count {
+    position: absolute;
+    top: -$google-spacing;
+    left: $google-spacing * 0.75;
+    min-width: $google-spacing * 2.75;
+    padding: 0 ($google-spacing / 2);
+    font-size: $nano-size;
+    line-height: $google-spacing * 2.75;
+    text-align: center;
+    background: $color-red;
+    color: $color-white;
+    border-radius: $google-spacing * 2;
+    z-index: $z-fold;
+}
+
+.k-card {
+    position: relative;
+    // width: $card-width;
+    border-radius: $base-radius;
+    background: $color-white;
+    border: 2px solid transparent;
+
+&.k-card--selected {
+     border-color: $color-purple;
+     box-shadow: -$google-spacing 0 0 $color-purple;
+ }
+
+&.k-card--w-collaborators {
+     border-color: $color-purple;
+     padding-bottom: $google-spacing;
+ }
+
+&:hover {
+     box-shadow: $shadow-default;
+ }
+
+&:focus-within {
+     border-color: calc-color(tint, $color-base, 60) !important;
+ }
+
+&.k-card--multiple-dragging {
+     opacity: 0.5;
+ }
+}
+
+@each $name, $item in $colors {
+    $color: map-get($item, 'color');
+    $text: get-text-color($item);
+    $stripColor: calc-color(fade, $text, 5);
+
+.k-card--bgcolor-#{to_upper_case(str-slice(#{$color}, 2))} {
+    color: $text;
+    background-color: $color;
+
+code {
+    background-color: $text;
+    color: $color;
+}
+
+.k-card__drive-docs__file {
+    border-color: calc-color(fade, $text, 20);
+}
+
+.k-card__actions .kui-icon,
+.k-card__c-number,
+.k-card__count-icon,
+.k-card__drive-docs__file_link,
+.k-card__drive-docs__file_download,
+.k-card__drive-docs__file_icon {
+    color: $text;
+}
+
+&.k-card--loading .k-card__state {
+     background-image: linear-gradient(-45deg,
+     $stripColor 25%,
+     transparent 25%,
+     transparent 50%,
+     $stripColor 50%,
+     $stripColor 75%,
+     transparent 75%,
+     transparent
+     );
+ }
+}
+}
+
+.k-card__title-inner {
+    width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    word-break: break-word;
+    white-space: pre-wrap;
+    line-height: 1.3;
+}
+
+.k-card__modules {
+    padding: $google-spacing * .75;
+    cursor: pointer; // применяем тут, что бы перебить курсор из RBD который применряется к dragHandleProps элементу
+}
+
+.k-card__dates {
+    white-space: nowrap;
+    height: $google-spacing * 3;
+
+&.k-card__dates--all {
+.kui-icon {
+    display: none;
+}
+}
+}
+
+.k-card__module {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    min-height: $google-spacing * 3;
+
+&:first-child {
+     width: calc(100% - #{$google-spacing * 4});
+ }
+
+& + & {
+      margin-top: $google-spacing;
+  }
+
+&.k-card__module--color-tags {
+     min-height: $google-spacing * 2.5;
+
+.color-tags--5plus {
+.color-tags__item {
+    text-indent: 100vw;
+
+&:hover {
+     flex-grow: 1;
+ }
+}
+}
+}
+
+&.k-card__module--tags {
+     min-height: $google-spacing * 2;
+ }
+
+&.k-card__module--counters {
+     min-height: $google-spacing * 2;
+ }
+
+&.k-card__module--tags + &.k-card__module--counters {
+     margin-top: $google-spacing * .5;
+ }
+}
+
+.k-card__state {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    display: block;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    border-radius: $base-radius;
+    border: 1px solid calc-color(fade, $color-base, 15);
+    pointer-events: none;
+    z-index: $z-fold - 1;
+@include transition(all, .16s);
+
+.k-card--loading & {
+@include transition;
+    pointer-events: auto;
+    cursor: progress;
+    background-size: $google-spacing * 2 $google-spacing * 2;
+    background-image: linear-gradient(-45deg,
+    $stripColor 25%,
+    transparent 25%,
+    transparent 50%,
+    $stripColor 50%,
+    $stripColor 75%,
+    transparent 75%,
+    transparent
+    );
+    animation: striped-lines .5s linear infinite;
+}
+.k-card--selected & {
+    border-color: $color-purple;
+    box-shadow: -$google-spacing 0 0 $color-purple;
+}
+
+.k-card--highlight-collaboration & {
+    border-color: transparent;
+}
+}
+
+@keyframes striped-lines {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: $google-spacing * 4 $google-spacing * 2
+    }
+}
+
+
+.color-tags {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: flex-end;
+	height: $google-spacing * 4;
+	width: 100%;
+	padding: 0;
+	font-weight: normal;
+
+	&.color-tags--20 {
+		height: $google-spacing * 2.5;
+		margin: $google-spacing * .25 0 0;
+
+		.color-tags__item {
+			font-size: $milli-size;
+            line-height: $google-spacing * 2.5;
+		}
+	}
+}
+
+.color-tags__item {
+    flex: 1 1 10%;
+    @extend %text-ellipsis;
+    height: 100%;
+    padding: 0 $google-spacing;
+    border-radius: $base-radius;
+    text-align: left;
+	line-height: $google-spacing * 4;
+    @include transition;
+
+    & + & {
+        margin-left: $google-spacing * .5;
+    }
+
+    &:hover {
+        flex-grow: 5;
+    }
+
+    @each $name, $item in $colors {
+        $color: map-get($item, 'color');
+        $text: get-text-color($item);
+
+        &--#{$name} {
+            color: $text;
+            background: $color;
+
+            .k-card--colored & {
+                background: calc-color(tint, $color, 75);
+            }
+        }
+    }
+}
+
+.k-card__actions {
+    float: right;
+    height: $google-spacing * 3;
+    z-index: $z-fold;
+    @include transition;
+
+    &.kui-button-dropdown--opened {
+        .k-card__actions-button {
+            background: none !important;
+
+            .kui-icon {
+                opacity: 1;
+            }
+        }
+    }
+
+    .aside-panel &:not(.kui-button-dropdown--opened) {
+        z-index: $z-initials;
+    }
+}
+
+.k-card-actions-portal {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+
+    .kui-dropdown {
+        width: 100%;
+    }
+
+    .kui-dropdown__item {
+        margin-top: -$google-spacing;
+        margin-left: -$google-spacing * 2;
+    }
+
+    .kui-select-list__item--disabled {
+        opacity: .5;
+    }
+}
+
+.k-card__assignees {
+	position: absolute;
+	right: 0;
+	
+	.users-tooltip {
+		justify-content: flex-end;
+	}
+}
+
+.k-card__checklists {
+    display: block;
+    margin-top: $google-spacing * 1.25 !important;
+    margin-left: -$google-spacing * .75;
+    margin-right: -$google-spacing * .75;
+    margin-bottom: -$google-spacing * .75;
+    padding-top: $google-spacing * 1.25;
+    padding-left: $google-spacing * .75;
+    padding-right: $google-spacing * .75;
+    padding-bottom: $google-spacing * .75;
+    min-height: $google-spacing * 4;
+    color: $color-base;
+    background: calc-color(fade, $color-white, 90);
+    border-radius: $small-radius;
+}
+
+.k-card__checklist {
+    position: relative;
+    & + & {
+        margin-top: $google-spacing * 1.25;
+        padding-top: $google-spacing * 1.25;
+    }
+}
+
+.k-card:not(.k-card--colored) .k-card__checklists,
+.k-card__checklist + .k-card__checklist {
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 1px;
+        background: calc-color(fade, $color-base, 15);
+    }
+}
+
+.k-card__checklist + .k-card__checklist {
+    &:before {
+        left: -$google-spacing * .75;
+        right: -$google-spacing * .75;
+    }
+}
+
+
+.k-card__checklist-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.k-card__checklist-title-name {
+    @extend .text-ellipsis;
+    font-size: $milli-size;
+    font-weight: bold;
+}
+
+.k-card__checklist-progress {
+    line-height: $google-spacing * 2.5;
+    white-space: nowrap;
+    font-size: $nano-size;
+    font-weight: bold;
+    color: calc-color(fade, $color-base, 60);
+}
+
+.k-card__checklist-done-icon {
+    margin-right: $google-spacing * .5;
+    color: $color-green;
+}
+
+.k-card__checklist-item {
+    position: relative;
+    min-height: $google-spacing * 3;
+    margin: $google-spacing * .5 0;
+    padding: 0;
+    font-size: $nano-size;
+
+    &.k-card__checklist-item--checked {
+        .k-card__checklist-item-name {
+            text-decoration: line-through;
+        }
+    }
+
+    .kui-checkbox {
+        position: absolute;
+        width: $google-spacing * 3;
+        z-index: $z-fold;
+
+        &:before {
+            right: 0;
+            top: -$google-spacing * .5;
+            bottom: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+    }
+
+    .kui-checkbox__label:before,
+    .kui-checkbox__checkmark {
+        height: $google-spacing * 2;
+        width: $google-spacing * 2;
+    }
+
+    &:before {
+        @include transition;
+        content: '';
+        position: absolute;
+        left: -$google-spacing * .75;
+        right: -$google-spacing * .75;
+        top: -$google-spacing * .5;
+        bottom: 0;
+        border-radius: $small-radius;
+    }
+   
+    &:hover:before {
+        background: calc-color(fade, $color-base, 5);
+    }
+}
+
+.k-card__checklist-item-name {
+    position: relative;
+    padding-top: $google-spacing * .25;
+    padding-left: $google-spacing * 3;
+    font-size: $nano-size;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+
+    * {
+        font-size: $nano-size;
+    }
+
+    *:last-child {
+        margin-bottom: 0;
+    }
+
+    a {
+        padding: $google-spacing * .5;
+        margin: -$google-spacing * .5;
+    }
+}
+
+.k-card__checklist-item-indicators {
+    position: relative;
+    float: right;
+    white-space: nowrap;
+    line-height: $google-spacing * 3.2;
+    height: $google-spacing * 2.5;
+    margin-top: -$google-spacing * .5;
+    z-index: $z-fold;
+}
+
+.k-card__checklist .users-tooltip {
+    display: inline-block;
+    width: $google-spacing * 2.5;
+    height: $google-spacing * 2.5;
+    margin-left: $google-spacing;
+    transform: translateY($google-spacing * .25);
+
+    .kui-userpic {
+        width: $google-spacing * 2.5;
+        min-width: $google-spacing * 2.5;
+        height: $google-spacing * 2.5;
+    }
+}
+
+.k-card__checklist-item-startdate-indicator,
+.k-card__checklist-item-duedate-indicator,
+.k-card__checklist-item-estimate-indicator {
+    position: relative;
+    display: inline-block;
+    height: $google-spacing * 3;
+    margin-left: $google-spacing * .75;
+    text-align: right;
+    font-size: $nano-size;
+    font-weight: bold;
+    vertical-align: top;
+    white-space: nowrap;
+
+    .kui-icon {
+        margin-right: $google-spacing * .5;
+        opacity: .6;
+    }
+
+    &.k-card__checklist-item-duedate-indicator--overdue {
+        color: $color-red;
+
+        .kui-icon {
+            opacity: 1;
+        }
+    }
+}
+
+.k-card__checklist-item-estimate-indicator {
+    @extend .text-ellipsis;
+    max-width: $google-spacing * 6;
+}
+
+.k-card__checklist-item-weight {
+    display: inline-block;
+    width: $google-spacing * 4;
+    height: $google-spacing * 3;
+    margin-left: $google-spacing;
+    vertical-align: top;
+    font-size: $nano-size;
+
+    .kui-icon {
+        margin-right: $google-spacing * .25;
+        opacity: .3;
+    }
+}
+
+.k-card__collaborators {
+    position: absolute;
+    bottom: -$google-spacing;
+    left: 0;
+    height: $google-spacing * 2.5;
+    display: none;
+    max-width: calc(100% - #{$google-spacing * 2});
+    font-size: $piko-size;
+    padding: 0 $google-spacing;
+    color: $color-white;
+    z-index: $z-cardinfo;
+    border-radius: $base-radius;
+    @extend .text-ellipsis;
+
+    .k-card--w-collaborators & {
+        display: block;
+    }
+}
+
+.k-card__collaborator {
+    @extend .text-ellipsis;
+    display: inline-block;
+    background: $color-purple;
+    padding: 2px 4px;
+    border-radius: $base-radius;
+    max-width: 63px;
+
+    & + & {
+        margin-left: 2px;
+    }
+}
+
+.k-card__count-indicator {
+    display: flex;
+    font-size: $nano-size;
+
+    & + & {
+        margin-left: $google-spacing * 2;
+    }
+}
+
+.k-card__count-icon {
+    margin-right: $google-spacing * .5;
+    opacity: .3;
+}
+
+
+.k-card__date-value {
+    display: inline-flex;
+    align-items: center;
+    height: $google-spacing * 3;
+    padding: 0 $google-spacing / 2;
+    vertical-align: bottom;
+    background: calc-color(fade, $color-base, 20);
+    border-radius: $base-radius;
+
+    & + & {
+        margin-left: $google-spacing;
+    }
+
+    .kui-icon {
+        margin-right: $google-spacing / 2;
+    }
+
+    .k-card--colored & {
+        background: calc-color(fade, $color-base, 30);
+    }
+
+    &.k-card__date-value--overdue {
+        background: calc-color(tint, $color-background, 50);
+        color: $color-red;
+    }
+}
+
+.k-card__date-text {
+    font-size: $nano-size;
+    font-weight: bold;
+}
+
+.k-card__indicator {
+  display: flex;
+  align-items: center;
+  & + & {
+    margin-left: $google-spacing;
+  }
+  &.k-card__indicator--processing {
+    position: absolute;
+    right: 0;
+  }
+}
+
+.k-card__c-number {
+  display: inline-block;
+  padding: 2px $google-spacing 0;
+  margin-right: $google-spacing * 0.5;
+  font-size: $milli-size;
+  font-weight: 700;
+  border-radius: $base-radius;
+  background-color: calc-color(fade, $color-base, 20);
+  .k-card--colored & {
+    background-color: calc-color(fade, $color-base, 30);
+  }
+}
+
+
+.k-card__subcards {
+    display: block;
+    margin-top: $google-spacing * 1.25 !important;
+    margin-left: -$google-spacing * .75;
+    margin-right: -$google-spacing * .75;
+    margin-bottom: -$google-spacing * .75;
+    padding-top: $google-spacing * 1.25;
+    padding-left: $google-spacing * .75;
+    padding-right: $google-spacing * .75;
+    padding-bottom: $google-spacing * .75;
+    min-height: $google-spacing * 4;
+    color: $color-base;
+    background: calc-color(fade, $color-white, 90);
+    border-radius: $small-radius;
+}
+
+.k-card:not(.k-card--colored) .k-card__subcards {
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 1px;
+        background: calc-color(fade, $color-base, 15);
+    }
+}
+
+.k-card__subcards-title {
+    margin-bottom: $google-spacing * .25;
+    font-size: $milli-size;
+    font-weight: bold;
+}
+
+.k-card-subcard {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: $google-spacing * 3.5;
+    padding: $google-spacing * .5;
+    font-size: $nano-size;
+    font-weight: normal;
+    border-radius: $base-radius;
+    cursor: pointer;
+
+    &:focus-within,
+    &:hover {
+        background: calc-color(fade, $color-base, 5);
+    }
+}
+
+.k-card-subcard__col {
+    display: flex;
+    align-items: center;
+
+    &.k-card-subcard__col--img {
+        flex: 0 0 $google-spacing * 2.5;
+
+        .kui-icon {
+            width: $google-spacing * 1.75;
+            min-width: $google-spacing * 1.75;
+        }
+    }
+    
+    &.k-card-subcard__col--name {
+        flex: 1 1 100%;
+        @extend %text-ellipsis;
+        height: $google-spacing * 2;
+        color: $color-base;
+    }
+
+    &.k-card-subcard__col--progress {
+        flex: 0 0 $google-spacing * 4;
+        justify-content: flex-end;
+        color: calc-color(fade, $color-base, 60);
+        font-weight: bold;
+    }
+}
+
+.k-card-subcard__number {
+    display: inline-block;
+    margin-right: $google-spacing * .25;
+    padding: $google-spacing * .25 $google-spacing * .25 0;
+    font-size: 9px;
+    background: calc-color(fade, $color-base, 10);
+    border-radius: $base-radius;
+    transform: translateY(-1px);
+}
+
+.k-card__tags {
+    margin-bottom: $google-spacing * .5;
+    opacity: .6;
+    font-size: $nano-size;
+
+    span {
+        display: inline-block;
+        margin-right: $google-spacing * .5;
+        white-space: nowrap;
+    }
+}
+
+.k-card__tag-tooltip {
+    overflow: hidden;
+}
+
+
+.k-card__title {
+    font-size: $milli-size;
+}
+
+
+.k-card__drive-docs__file {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    line-height: $google-spacing * 2;
+    font-size: $nano-size;
+    & + & {
+        margin-top: $google-spacing / 2;
+    }
+}
+
+.k-card__drive-docs__file_link {
+    display: inline-flex;
+    align-items: center;
+    flex: 1 1 100%;
+    color: $color-base;
+    text-decoration: none;
+    overflow: hidden;
+
+    &:hover, &:active {
+        text-decoration: underline;
+        color: $color-base;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+}
+
+.k-card__drive-docs__file_icon {
+    flex: 0 0 $google-spacing * 3;
+}
+
+.k-card__drive-docs__file_title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: $google-spacing / 2 0;
+}
+
+
+.k-card__drive-docs__file_download {
+    display: none;
+    color: calc-color(fade, $color-base, 60);
+
+    &:hover, &:active {
+        color: $color-base;
+    }
+
+    .k-card__drive-docs__file:hover & {
+        display: block;
+    }
+}
+
+.k-card__drive-docs {
+    width: 100%;
+}
+
+.k-card__drive-docs__image {
+    display: flex;
+    align-items: stretch;
+    border-radius: $base-radius;
+    box-shadow: none;
+    overflow: hidden;
+
+    >div {
+        width: 100%;
+        height: 160px;
+        background-position: 50%;
+        background-repeat: no-repeat;
+    }
+}
+
+
+.k-card__priority {
+    position: relative;
+    display: flex;
+    height: $google-spacing * 2.5;
+    padding-right: $google-spacing;
+    border-radius: $google-spacing * 3;
+    background: calc-color(fade, $color-base, 60);
+}
+
+.k-card__priority-icon {
+    margin-left: 1px;
+    width: $google-spacing * 2.3;
+    height: $google-spacing * 2.5;
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: $google-spacing * .5;
+        top: $google-spacing * .75;
+        width: $google-spacing * 1.5;
+        height: $google-spacing * 1.4;
+        border-radius: $base-radius;
+        background: $color-white;
+    }
+
+    .kui-icon__svg {
+        position: relative;
+    }
+}
+
+.k-card__priority-label {
+    height: $milli-size;
+    margin-left: $google-spacing * 0.25;
+    font-size: $milli-size;
+    font-weight: bold;
+    color: $color-white;
+}
+
+.k-card__processing {
+    transform-origin: right center;
+    transform: scale(.84);
+
+    .kui-done__percent {
+        font-size: $base-font-size;
+    }
+}
+
+
+.k-card__sub-card-status {
+  display: flex;
+  align-items: center;
+  background: calc-color(fade, $color-base, 30);
+  border-radius: $base-radius;
+}
+
+.k-card__epic-indicator {
+  color: $color-base;
+  background: $color-yellow;
+  border-radius: $base-radius;
+}
+.k-card__sub-card-indicator {
+  color: $color-white;
+}
+
+.users-tooltip {
+    width: $google-spacing * 3;
+    height: $google-spacing * 3;
+    position: relative;
+
+    &.users-tooltip--big {
+        display: flex;
+        width: $google-spacing * 6.5;
+    }
+}
+
+.users-tooltip__number {
+    position: absolute;
+    right: -$google-spacing * .25;
+    bottom: -$google-spacing * .25;
+    width: $google-spacing * 1.5;
+    height: $google-spacing * 1.5;
+    color: $color-white;
+    font-weight: bold;
+    font-size: $google-spacing;
+    text-align: center;
+    line-height: $google-spacing * 1.5;
+    border-radius: $google-spacing;
+    background: $color-purple;
+
+    .users-tooltip--big & {
+        position: relative;
+        right: unset;
+        bottom: unset;
+        width: $google-spacing * 3;
+        height: $google-spacing * 3;
+        margin-left: $google-spacing * .5;
+        transform: unset;
+        color: $color-base;
+        font-size: $milli-size;
+        text-align: center;
+        line-height: $google-spacing * 3;
+        border-radius: $base-radius;
+        background: $color-background;
+    }
+}
+
+.users-tooltip__user {
+    width: $google-spacing * 3;
+    height: $google-spacing * 3;
+    position: relative;
+
+    & + & {
+        margin-left: $google-spacing * .5;
+    }
+}
+
+.users-tooltip__tooltip-title {
+    margin-bottom : $google-spacing;
+}
+
+.users-tooltip__tooltip-user {
+    display: flex;
+    align-items: center;
+
+    & + & {
+        margin-top: $google-spacing;
+    }
+
+    .kui-userpic {
+        margin-right: $google-spacing;
+    }
+}
+
+.users-tooltip__tooltip-user-roles {
+    font-size: $nano-size;
+    opacity: .6;
+    line-height: $google-spacing * 1.5;
+}
+
+.users-tooltip__user-roles {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    height: $google-spacing;
+    padding: $google-spacing * .25;
+    background: calc-color(fade, $color-base, 80);
+    border-radius: $google-spacing;
+}
+
+.users-tooltip__user-role {
+    width: $google-spacing * .5;
+    height: $google-spacing * .5;
+    border-radius: $google-spacing * .5;
+
+    & + & {
+        margin-left: $google-spacing * .5;
+    }
+
+    @each $name, $item in $colors {
+        &--#{$name} {
+            background: map-get($item, 'color');
+        }
+    }
+}
+

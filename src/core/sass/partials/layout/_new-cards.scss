@@ -1,0 +1,638 @@
+//  ==================================================================
+//  Board Cards
+//  ==================================================================
+
+/*  // Card state modifiers
+
+    .ncard--state-selected {}             – Card is open (active card)
+    .ncard--state-multiselected {}        – Massive active state
+    .ncard--state-sorting {}              – Drag and drop state
+    .ncard--state-disabled {}             – Card is not available
+    .ncard--state-progress {}             – Progress animation
+
+    // Card highlight modifiers
+
+    .ncard--highlight-collaboration {}    – Highlight Card is open by others
+    .ncard--highlight-subcard {}          – Highlight subcards
+
+    // Card status modifiers
+
+    .ncard--status-incomplete {}          – Card has deadline but incomplete yet
+    .ncard--status-done {}                – Card marked as Done
+    .ncard--status-expired {}             – Card is overdue
+    .ncard--status-watched {}             – Card is overdue
+
+    // Card type modifiers
+
+    .ncard--type-epic {}                  – Card has subcards
+    .ncard--type-subcard {}               – Card is a subcard
+    .ncard--type-shadow {}                – Card is a simlink to another card
+
+    // Card color modifiers
+
+    .ncard--colored {}                    – Card is colored
+
+    // Card data modifiers                – Complex card data modifiers
+
+    .ncard--data-labels                   – Card has colored labels
+    .ncard--data-title                    – Card has a card title
+    .ncard--data-description              – Card has a description
+    .ncard--data-subcards                 – Card has subcards
+    .ncard--data-priority                 – Card has a priority
+    .ncard--data-assignees                – Card has assignees
+    .ncard--data-startdate                – Card has a start date
+    .ncard--data-duedate                  – Card has a due date
+    .ncard--data-duedate                  – Card has an estimate
+    .ncard--data-spenttime                – Card has a spent time
+    .ncard--data-checklists               – Card has a checklist
+    .ncard--data-attachments              – Card has attachments
+    .ncard--data-tags                     – Card has tags
+    .ncard--data-comments                 – Card has comments
+
+    // Card Module modifiers              – which blocks is shown on the card
+
+    .ncard--module-attachments {}         – Card has pinned attachments
+    .ncard--module-cover {}               – Cover option for img attachments
+    .ncard--module-labels {}              – Card has labels row
+    .ncard--module-dates {}               – Card has dates row
+    .ncard--module-title {}               – Card has card title
+    .ncard--module-tags {}                – Card has text tags
+    .ncard--module-indicators {}          – Card has indicators (description, checklists, etc.)
+
+==================================================================  */
+
+$subacard-outline-spacing: 4px !default;
+
+/*  Card base styles
+    ==================================================================  */
+
+.ncard {
+    will-change: auto;
+    position: relative;
+    width: $card-width;
+    border-radius: $base-radius;
+    background: $color-white;
+    border: 2px solid transparent;
+    backface-visibility: hidden;
+    cursor: pointer;
+    @include transition;
+
+    &.ncard--state-sorting {
+        will-change: left, top;
+        @include material-shadow($z-depth: 5);
+        cursor: move;
+    }
+    &.ncard--state-selected {
+        will-change: contents;
+    }
+}
+
+.ncard__modules {
+    padding: ($half-base-spacing / 2) 0;
+
+    .ncard--module-attachments & {
+        padding-top: 0;
+    }
+}
+
+.ncard__module {
+    position: relative;
+    padding: 0 $half-base-spacing;
+    margin: ($half-base-spacing / 2) 0;
+    overflow: hidden;
+}
+
+// Card type subcard
+
+.ncard--type-subcard {
+    margin: $half-base-spacing $subacard-outline-spacing;
+    width: $card-width - $google-spacing * .75;
+
+    &:not(.ncard--state-sorting):before {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: -$subacard-outline-spacing;
+        right: -$subacard-outline-spacing;
+        bottom: -$subacard-outline-spacing;
+        left: -$subacard-outline-spacing;
+        border-radius: $big-radius;
+        background: calc-color(fade, $color-base, 10);
+        overflow: hidden;
+        @include transition;
+    }
+    &.ncard--highlight-subcard:before {
+        background-color: calc-color(fade, $color-yellow, 75);
+    }
+}
+
+
+/*  Card module – Attachments
+    ==================================================================  */
+
+.ncard__module--attachments {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.card-attachments__unit {
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px calc-color(fade, $color-base, 10);
+}
+
+.card-attachments__link {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding: 0 $half-base-spacing;
+    text-decoration: none;
+    color: $color-base;
+    @include transition;
+
+    &:focus {
+        outline: none;
+    }
+    // Card is colored
+    .ncard--colored & {
+        color: $color-base;
+    }
+}
+
+.card-attachments__file-icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    width: $google-spacing * 2;
+    height: $google-spacing * 2;
+    margin-right: $google-spacing * 2;
+    padding: 3px;
+    border-radius: $small-radius;
+    overflow: hidden;
+    background: $color-white;
+}
+
+.card-attachments__file-name {
+    font-size: $milli-size;
+    line-height: $base-spacing * 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .card-attachments__link:hover & {
+        text-decoration: underline;
+    }
+}
+
+.card-attachments__download-link {
+    display: none;
+    flex: none;
+    width: $base-spacing * 2;
+    margin-left: auto;
+    text-align: center;
+    color: $color-base;
+    @include transition;
+
+    .card-attachments__unit:hover & {
+        display: block;
+    }
+    &:hover {
+        color: $color-purple;
+        opacity: 1;
+    }
+}
+
+// Pinned cover image
+
+.card-attachments__unit--cover {
+    display: flex;
+    align-items: stretch;
+    border-radius: $base-radius $base-radius 0 0;
+    background: $color-white url(#{$images-path}/thumb-bg.png);
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.card-attachments__cover {
+    width: 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    &.card-attachments__cover--size-80 {
+        height: $base-spacing * 4; // 80px
+    }
+    &.card-attachments__cover--size-100 {
+        height: $base-spacing * 5; // 100px
+    }
+    &.card-attachments__cover--size-120 {
+        height: $base-spacing * 6; // 120px
+    }
+    &.card-attachments__cover--size-140 {
+        height: $base-spacing * 7; // 140px
+    }
+    &.card-attachments__cover--size-160 {
+        height: $base-spacing * 8; // 160px
+    }
+}
+
+
+/*  Card module – Labels
+    ==================================================================  */
+.ncard__module--labels {
+    z-index: $z-fold - 1;
+}
+
+.card-labels__unit {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    &.card-labels__unit--label {
+        .card-label__body {
+            padding: 0 $half-base-spacing / 2;
+        }
+        .card-label__text {
+            opacity: 0;
+            width: auto;
+            padding: 0;
+            max-width: 0;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+        }
+    }
+}
+.card-labels__unit--label:hover .card-label__text {
+    opacity: 1;
+    max-width: $half-base-spacing * 8.5;
+    .ncard--type-subcard & {
+        max-width: $half-base-spacing * 8;
+    }
+}
+
+@for $i from 10 through 1 {
+    &.card-labels__unit--label:nth-child(#{$i}) {
+        left: $i * $half-base-spacing * 1.5;
+        z-index: 10 - $i;
+    }
+}
+
+.card-labels__unit--priority {
+    margin-right: $half-base-spacing / 2;
+    .card-priority {
+        max-width: $base-spacing;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+    }
+    &:hover {
+        .card-priority {
+            //TODO FIX BAD CODE BELOW
+            &.card-priority--critical,
+            &.card-priority--high,
+            &.card-priority--medium,
+            &.card-priority--normal,
+            &.card-priority--low {
+                max-width: 85px;
+            }
+        }
+    }
+}
+
+
+
+/*  Card module – Dates
+    ==================================================================  */
+
+.ncard__module--labels + .ncard__module--dates {
+    margin-top: $half-base-spacing;
+}
+
+.card-dates {
+    display: flex;
+}
+
+.card-dates__unit {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    color: $color-base;
+    opacity: 1;
+
+    &:not(:first-child) {
+        margin-left: $half-base-spacing;
+    }
+
+    .icon {
+        width: $google-spacing * 2;
+        height: $google-spacing * 2;
+    }
+
+    .ncard--status-expired &.card-dates__unit--due-date {
+        color: $color-red;
+    }
+}
+
+.card-dates__unit-value {
+    font-size: $nano-size;
+}
+
+
+/*  Card module – Title
+    ==================================================================  */
+
+.ncard__module--title { }
+.ncard-title {}
+
+.ncard-title__number {
+    display: inline-block;
+    padding: $google-spacing * 0.25 $google-spacing 0;
+    font-size: $milli-size;
+    font-weight: 700;
+    border: 1px solid calc-color(tint, $color-base, 20);
+    border-radius: $base-radius;
+}
+
+.ncard-title__text {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    font-size: $milli-size;
+
+    * {
+        font-size: $milli-size;
+    }
+
+    pre, code {
+        font-size: $nano-size;
+    }
+
+    // Card Type modifier
+    .ncard--type-epic & {
+        font-weight: 700;
+    }
+}
+
+.icon--ncard_description {
+    width: $google-spacing * 2;
+    height: $google-spacing * 2;
+    opacity: 0.5;
+}
+
+
+/*  Card module – Tags
+    ==================================================================  */
+
+.ncard__module--tags {}
+
+.ncard-tags {
+    @extend .text-ellipsis;
+    height: $base-spacing;
+}
+
+.ncard-tags__unit {
+    position: relative;
+    font-size: $piko-size;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: $color-base;
+
+    &:not(:last-child) {
+        margin-right: $half-base-spacing / 2;
+    }
+    &:before {
+        content: '#';
+    }
+}
+
+.ncard-tags__link {
+    pointer-events: none; // Disabled hover and click until it works
+    text-decoration: none;
+    color: $color-base;
+    @include transition;
+    &:hover {
+        text-decoration: underline;
+    }
+    &:focus {
+        outline: none;
+    }
+}
+
+.card-tags__text {
+    margin-left: -2px;
+}
+
+
+/*  Card module – Indicators
+    ==================================================================  */
+
+.card-indicators {
+    display: flex;
+    align-items: center;
+    height: $base-spacing;
+    color: $color-base;
+}
+
+.card-indicators__unit {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 2px; // hard tune
+
+    &:first-child {
+        margin-left: -2px; // hard tune;
+    }
+    &:not(:first-child) {
+        margin-left: $half-base-spacing;
+    }
+    &.card-indicators__unit--epic {
+        color: $color-base;
+        opacity: 1;
+        background: $color-yellow;
+        border-radius: $half-base-spacing;
+    }
+    &.card-indicators__unit--assignees {
+        margin-left: auto;
+        opacity: 1;
+    }
+    .icon {
+        width: $google-spacing * 2;
+        height: $google-spacing * 2;
+        margin: 0;
+    }
+}
+
+.card-indicators__unit-value {
+    .card-indicators__unit--epic & {
+        padding-right: 4px; // Hard tune
+        padding-left: 2px; // Hard tune
+        color: $color-base;
+        line-height: $google-spacing * 2;
+    }
+}
+
+// Card ssignees
+
+.card-indicators__assignee {
+    width: $base-spacing + 2;
+    height: $base-spacing + 2;
+    margin-right: 1px;
+    border-radius: $small-radius;
+    font-size: $nano-size;
+    text-align: center;
+    background: calc-color(fade, $color-base, 20);
+    overflow: hidden;
+
+    &:last-child {
+        margin-right: 0;
+    }
+    &.card-indicators__assignee--more {
+        background: calc-color(fade, $color-base, 10);
+    }
+}
+
+.card-indicators__assignee-pic {
+    vertical-align: baseline;
+}
+
+.card-indicators__assignee-count {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+
+/*  Highlight Collaborators
+    ==================================================================  */
+
+.ncard-collaborators {
+    pointer-events: none;
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    border: 1px solid;
+    border-radius: $base-radius;
+    .ncard--highlight-collaboration & {
+        display: block;
+    }    
+}
+
+.ncard-collaborators__persons {
+    @extend .text-ellipsis;
+    position: absolute;
+    z-index: $z-initials;
+    left: $half-base-spacing;
+    bottom: -7px;
+    max-width: calc(100% - #{$base-spacing});
+    padding: 0 ($half-base-spacing / 2);
+    font-size: $piko-size - 1;
+    line-height: 14px;
+    color: $color-white;
+    border-radius: $small-radius;
+    pointer-events: auto;
+}
+
+
+/*  Card state helper (active, progress, etc)
+    ==================================================================  */
+
+.ncard-state {
+    position: absolute;
+    top: -2px;    
+    left: -2px;
+    display: block;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    border-radius: $base-radius;
+    border: 1px solid calc-color(fade, $color-base, 15);
+    pointer-events: none;
+    z-index: $z-fold - 1;
+    @include transition;
+    
+    .ncard--state-progress & {
+        @include transition;
+        pointer-events: auto;
+        cursor: progress;
+        background-size: $base-spacing $base-spacing;
+        background-image: linear-gradient(
+            45deg,
+            calc-color(fade, $color-base, 10)  25%,
+            transparent                        25%,
+            transparent                        50%,
+            calc-color(fade, $color-base, 10)  50%,
+            calc-color(fade, $color-base, 10)  75%,
+            transparent                        75%,
+            transparent
+        );
+        animation: striped-lines 0.35s linear infinite;
+    }
+
+    .ncard--highlight-collaboration & {        
+        border-color: transparent;        
+    }
+}
+
+.ncard--state-selected,
+.ncard--state-multiselected,
+.ncard--state-highlight {
+    border-color: $color-purple;    
+    box-shadow: $google-spacing 0 0 $color-purple;
+}
+
+@keyframes striped-lines {
+    from { background-position: 0 0; }
+    to   { background-position: $base-spacing * 2  $base-spacing; }
+}
+
+.ncard--bgcolor {    
+    @each $name, $item in $colors {
+        $color: map-get($item, 'color');
+        $colorShade: calc-color(shade, $color, 15);
+        $text: get-text-color($item);
+        &-#{str-slice(#{$color}, 2)} {
+            color: $text;
+            background: $color;
+            
+            .card-attachments__link,
+            .card-attachments__download-link,
+            .card-dates__unit,
+            .card-indicators,
+            .ncard-tags__unit,
+            .ncard-tags__link {
+                color: $text;
+            }
+            .card-label {                
+                &--#{$name} {
+                    .icon--label-arrow,
+                    .icon--label-tale {
+                        color: $colorShade;
+                    }
+                    .card-label__body {
+                        background: $colorShade;
+                    }
+                }
+            }
+        }        
+    }    
+}
+
+.ncard-archive_date {
+    margin-top: $google-spacing;
+    font-size: $nano-size;    
+    .icon--archive_date {
+        width: $google-spacing * 2;
+        height: $google-spacing * 2;
+        opacity: .3;
+    }
+    &__text {
+        opacity: .5;
+    }
+}
+
+.ncard {
+    &.ncard--draggable-source-is-dragging {
+        opacity: .5;
+    }
+    &.ncard--draggable-mirror {
+        box-shadow: $shadow-hover;
+        z-index: $z-modal;
+        transition-property: none !important;
+    }
+}

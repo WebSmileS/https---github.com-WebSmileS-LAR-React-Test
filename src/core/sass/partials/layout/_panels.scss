@@ -1,0 +1,149 @@
+// @import '~kui/index';
+
+/*  ==================================================================  *\
+    Panels
+\*  ==================================================================  */
+
+.page--board {
+    overflow: hidden;
+    background-color: $color-background;
+}
+
+.page--events {
+    aside:not(.aside-panel--help):not(.aside-panel--updates) *,
+    main * {
+        pointer-events: none;
+    }
+}
+
+.main-panel {
+    position: relative;
+    // overflow: hidden;
+    flex: 0 1 100%;
+    min-width: 0;
+    height: 100%;
+    user-select: none;
+    @include transition(width, 0.2s, cubic-bezier(0.77, 0, 0.175, 1), 0s);
+    z-index: $z-initials; //todo check after merge
+
+    .html--scroll & {
+		top: $topbar-height;
+    }
+}
+
+.aside-panel {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: $google-spacing * 52.5; // 420px
+    min-width: $google-spacing * 52.5; // 420px
+    background: $color-white;
+    box-shadow: calc-color(fade, $color-base, 20) -1px 0;
+    z-index: $z-aside;
+    &.aside-panel--opened {
+        display: block;
+    }
+    &.ui-resizable {
+        position: absolute;
+    }
+    .ui-resizable-handle.ui-resizable-w {
+        left: 0;
+        width: $half-base-spacing / 2;
+        z-index: $z-dropdown;
+    }
+    &.ui-resizable-resizing + .main-panel{
+        transition: none;
+    }
+    .page--related-panel & {
+        display: block;
+    }
+
+    .page--reports &:not(.card-templates) {
+        width: $google-spacing * 53 !important;
+    }
+
+    .page--reports &.aside-panel--aside-panel__card,
+    .page--reports .aside-panel--aside-panel__card & {
+        width: $google-spacing * 78 !important;
+    }
+
+    .page--reports &.aside-panel--aside-panel__board,
+    .page--reports .aside-panel--aside-panel__board & {
+        width: $google-spacing * 78 !important;
+    }
+
+    &.aside-panel--help,
+    &.aside-panel--updates {
+        z-index: $z-modal - 5; // eq .second-panel--blocker
+    }
+
+    .html--scroll &.aside-panel--opened {
+		position: fixed;
+		top: 0;
+    }
+}
+
+.float-panel { // For the related cards
+    position: absolute;
+    z-index: $z-dropdown;
+    top: calc(100% + 5px);
+    left: 0;
+    max-width: $half-base-spacing * 30;
+    min-width: $half-base-spacing * 15;
+    transform: translateY(50px);
+    transform: translateY(#{$base-spacing});
+    transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1) 0s, opacity 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+    overflow: hidden;
+    pointer-events: none;
+    margin-bottom: $half-base-spacing + 5;
+    border-radius: $base-radius;
+    @extend %dropdown-style;
+    &.float-panel--open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+.main-panel__scroll {
+    display: none;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: $google-spacing * 2;
+    overflow: auto;
+}
+
+.main-panel__scroll-inner {
+    height: 1px;
+}
+
+@media (min-width: $media-tablet) {
+	.main-panel__scroll {
+        .no-touch.no-mac & {
+            display: block;
+        }
+
+        .left-aside-panel--opened ~ .content__inner &, // override .navigation-panel-container--small
+        .navigation-panel-container--big ~ .content__inner & {
+			left: $google-spacing * 28;
+		}
+
+        .navigation-panel-container--compact ~ .content__inner & {
+			left: $google-spacing * 2;
+		}
+	}
+}
+
+@media (max-width: $aside-max) {
+    aside.aside-panel {
+        max-width: 100%;
+        min-width: 100%;
+    }
+    .main-panel.main-panel--with-aside {
+        min-width: 100%;
+    }
+}

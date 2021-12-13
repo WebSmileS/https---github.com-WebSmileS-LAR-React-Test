@@ -1,0 +1,95 @@
+
+
+.kui-tabs {
+    position: relative;
+    max-width: 100%;
+    height: $google-spacing * 7;
+    overflow: hidden;
+    box-shadow: 0 -1px 0 calc-color(fade, $color-base, 20) inset;
+
+    &__scroll {
+        max-width: 100%;
+        height: calc(100% + 20px); // hide scroll 
+        overflow-x: scroll;
+        white-space: nowrap;
+        
+        &::-webkit-scrollbar {
+            display: none; 
+        }
+    }
+
+    &__item {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        min-width: $google-spacing * 16;
+        height: $google-spacing * 7;
+        padding: 0 $google-spacing * 3;
+        color: calc-color(fade, $color-base, 50);
+        font-weight: normal;
+        background: transparent;
+        border-radius: 0;
+
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            top: 0;
+            right: 0;
+            background: transparent;
+            z-index: -1;
+            @include transition;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 1px;
+            background: transparent;
+            transform: scaleX(.5);
+            @include transition;
+        }
+
+        &:active,
+        &:focus,
+        &:hover {
+            color: $color-base;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        &:focus:before {
+            background: calc-color(fade, $color-base, 2.5);
+        }
+
+        &--active {
+            color: $color-base;
+            cursor: default;
+            
+            &:after {
+                height: 2px;
+                background: $color-purple;
+                transform: scaleX(1);
+            }
+        }
+    }
+
+    &--size_large {
+        height: $google-spacing * 9;
+        
+        .kui-tabs__item {
+            height: $google-spacing * 9;
+        }
+    }
+}
+
+@media (max-width: $media-iPad) {
+    .kui-tabs__item {
+        min-width: 0;
+        padding: 0 $google-spacing * 2;
+    }
+}

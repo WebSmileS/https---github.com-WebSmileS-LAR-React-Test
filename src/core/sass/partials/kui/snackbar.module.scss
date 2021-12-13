@@ -1,0 +1,195 @@
+
+.kui-snackbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: $media-iPad - $google-spacing * 4;
+    min-height: $google-spacing * 7;
+    padding: $google-spacing $google-spacing * 2;
+    color: $color-white;
+    border-radius: $base-radius;
+    background-color: $color-purple;
+    box-shadow: 0 $google-spacing $google-spacing * 2 calc-color(fade, $color-base, 10);
+    outline: none;
+    :global {
+        animation: snackbarShow .5s ease-in-out forwards;
+    }
+
+    &__container {
+        position: fixed;
+        max-width: calc(100% - #{$google-spacing * 4});
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: $z-noty;
+        bottom: $google-spacing * 8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__container--left {
+        left: $google-spacing * 8;
+        transform: unset;
+    }
+
+    &__icon {
+        flex: 0 0 $google-spacing * 3;
+        opacity: .5;
+    }
+
+    &__body {
+        flex: 1 1 auto;
+        margin: 0 0 0 $google-spacing * 2;
+    }
+
+    &__title {
+        font-weight: bold;
+        font-size: $h5-size;
+    }
+
+    &__text {
+        font-size: $milli-size;
+    }
+
+    &__timer {
+        margin: 0 0 0 $google-spacing * 2;
+        min-width: $google-spacing * 8;
+        font-weight: bold;
+        font-size: $h4-size;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    &__timer_num {
+        display: inline-block;
+        :global {
+            animation: snackbarTimer 1s ease-in-out infinite;
+        }
+    }
+
+    &__buttons {
+        flex-wrap: nowrap;
+        margin-left: $google-spacing * 3;
+    }
+
+    &--variant_error {
+        background-color: $color-red;
+    }
+
+    &--variant_promt {
+        background-color: $color-base;
+    }
+
+    &--variant_success {
+        background-color: $color-green;
+    }
+
+    &--variant_timer,
+    &--variant_undo {
+        background-color: $color-base;
+
+        .kui-snackbar {
+            &__body {
+                overflow: hidden;
+            }
+            &__text {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
+    &__button--primary {
+        background: calc-color(fade, $color-white, 50);
+
+        &:focus,
+        &:hover {
+            background: calc-color(fade, $color-white, 60);
+        }
+    }
+
+    .kui-button--variant_primary + .kui-button--variant_icon {
+        margin-left: $google-spacing * 2;
+    }
+
+    &.kui-snackbar--fadeout {
+        opacity: 0;
+        transition: opacity 2s;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    @media (max-width: $media-iPad) {
+        width: 100%;
+        flex-wrap: wrap;
+        padding: $google-spacing * 2;
+
+        &__container {
+            bottom: $google-spacing;
+            width: 100%;
+        }
+
+        &__container--left {
+            left: 50%;
+            transform: translateX(-50%);
+
+            .kui-snackbar {
+                flex-wrap: nowrap;
+            }
+            .kui-snackbar__body {
+                width: auto;
+                margin: 0;
+            }
+        }
+
+        &--variant_undo {
+            .kui-snackbar__text {
+                margin-right: $google-spacing;
+                white-space: unset;
+            }
+        }
+
+        &__body {
+            order: -1;
+            margin: 0 0 $google-spacing * 2 0;
+            width: 100%;
+        }
+
+        &__title {
+            font-size: $base-font-size;
+        }
+
+        &__timer {
+            margin: 0;
+            font-size: $h5-size;
+        }
+
+        &__buttons {
+            margin-left: 0;
+        }
+    }
+}
+
+@keyframes snackbarShow {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: none;
+    }
+}
+@keyframes snackbarTimer {
+    0%,
+    100% {
+        opacity: .2;
+        transform: scale(.2);
+    }
+    20%,
+    80% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

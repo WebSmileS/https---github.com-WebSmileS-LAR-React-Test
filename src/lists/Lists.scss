@@ -1,0 +1,48 @@
+@import '../core/sass';
+
+.lists-container {
+  display: block;
+  // height: 100%;
+  padding: $google-spacing 0 0 $google-spacing;
+
+  .scroll-visible.no-touch & {
+    height: calc(100% - #{$google-spacing * 2});
+  }
+
+  .ipad &,
+  .iphone & { // заблюрить фон на ios, т.к. он не умеет фиксироваться, растягивается на ширину всех листов и получяется грязный
+    backdrop-filter: blur(4px);
+  }
+}
+
+.list-container-child {
+  display: inline-block;
+
+  height: 40%;
+  // width:100%;
+  padding: $google-spacing 0 0 $google-spacing;
+
+  .scroll-visible.no-touch & {
+    height: calc(100% - #{$google-spacing * 2});
+  }
+
+  .ipad &,
+  .iphone & { // заблюрить фон на ios, т.к. он не умеет фиксироваться, растягивается на ширину всех листов и получяется грязный
+    backdrop-filter: blur(4px);
+  }
+}
+
+.lists-aside-placeholder {
+  &:not(.lists-aside-placeholder--with-aside) {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: $media-tablet) {
+  .lists-container {
+    // height: 100%;
+    padding-left: 0;
+  }
+}

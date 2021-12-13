@@ -1,0 +1,28 @@
+/*  ==================================================================  *\
+    Unsaved Cover
+\*  ==================================================================  */
+
+.unsaved-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: $base-spacing $base-spacing;
+    background-image: linear-gradient(
+      45deg,
+      calc-color(fade, $color-base, 10)  25%,
+      transparent                        25%,
+      transparent                        50%,
+      calc-color(fade, $color-base, 10)  50%,
+      calc-color(fade, $color-base, 10)  75%,
+      transparent                        75%,
+      transparent
+    );
+    animation: striped-lines 0.5s linear infinite;
+}
+
+@keyframes striped-lines {
+  from { background-position: 0 0; }
+  to   { background-position: $base-spacing * 2  $base-spacing; }
+}

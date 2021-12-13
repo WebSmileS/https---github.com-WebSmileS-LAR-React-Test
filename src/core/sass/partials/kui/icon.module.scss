@@ -1,0 +1,35 @@
+
+.kui-icon {
+    display: inline-flex;
+    vertical-align: middle;
+    width: $google-spacing * 2;
+    min-width: $google-spacing * 2;
+    height: $google-spacing * 2;
+    line-height: $google-spacing * 2;
+    overflow: hidden;    
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility; /* Support for Safari and Chrome. */
+    -moz-osx-font-smoothing: grayscale;
+
+    &__svg {
+        width: 100%;
+        height: 100%;
+        background: inherit;
+        fill: currentColor;
+    }    
+
+    &--24 {
+        width: $google-spacing * 3;
+        min-width: $google-spacing * 3;
+        height: $google-spacing * 3;
+        line-height: $google-spacing * 3;
+    }
+
+    &--96 {
+        width: $google-spacing * 12;
+        min-width: $google-spacing * 12;
+        height: $google-spacing * 12;
+        line-height: $google-spacing * 12;
+    }
+
+}

@@ -1,0 +1,93 @@
+/*  ==================================================================  *\
+    Variables to customize the look of application
+\*  ==================================================================  */
+
+// Paths
+$images-path:               "../img";
+$svg-path:                  "../svg";
+
+//  Fonts
+$font-family-sans-serif:    'Helvetica Neue', 'Segoe UI', 'Trebuchet MS', Geneva, Tahoma, sans-serif !default;
+$font-family-serif:         'Roboto Slab', 'Book Antiqua', Palatino, 'Palatino Linotype', 'Palatino LT STD', Georgia, serif !default;
+$font-family-monospace:     Monaco, Consolas, 'Lucida Console', monospace !default;
+$font-family-condensed:     'Roboto Condensed', 'Roboto', 'Helvetica Neue', Geneva, Tahoma, sans-serif !default;
+
+//  Typography
+$base-font-family:          $font-family-sans-serif !default;
+$base-font-size:            16px !default;
+$base-line-height:          1.5 !default;
+
+$h1-size:                   28px !default;
+$h2-size:                   22px !default;
+$h3-size:                   20px !default;
+$h4-size:                   18px !default;
+$h5-size:                   16px !default;
+$h6-size:                   $base-font-size !default;
+
+$milli-size:                14px !default;
+$nano-size:                 12px !default;
+$piko-size:                 11px !default;
+
+//  Spacing
+$base-spacing:              20px !default; // 20px
+$half-base-spacing:         $base-spacing / 2 !default; // 10px
+
+$google-spacing:            8px !default;
+
+//  Radius
+$small-radius:              2px !default;
+$base-radius:               4px !default;
+$big-radius:                6px !default;
+
+//  Z-index list
+$z-initials:                10 !default;
+$z-cardinfo:                10 !default;
+$z-userpic:                 20 !default;
+$z-fold:                    100 !default;
+$z-aside:                   100 !default;
+$z-dropdown:                1000 !default;
+$z-popover:                 1010 !default;
+$z-topbar:                  1030 !default;
+$z-modal:                   1040 !default;
+$z-modaltop:                1050 !default;
+$z-feedback:                1060 !default;
+$z-noty:                    1080 !default;
+$z-splash:                  2000 !default;
+$z-register:                2100 !default;
+$z-cookies:                 2110 !default;
+$z-tooltip:                 4000 !default;
+
+// iPad hacks
+$magic-delta-touch:         1px !default; // Магическое число для тачей по умолчанию для подгонки высоты
+$magic-delta-ipad:          58px !default;
+$magic-delta-crios:         1px !default;
+
+$media-default: 1200px;
+$media-tablet: 1024px;
+$media-iPad: 768px;
+$media-iPlus: 414px;
+$media-iPhone: 375px;
+$media-phone: 320px;
+
+$media-screens: (
+  default: $media-default,
+  tablet: $media-tablet,
+  iPad: $media-iPad,
+  iPlus: $media-iPlus,
+  iPhone: $media-iPhone,
+  phone: $media-phone
+);
+
+// shadows
+$shadow-default: 0 $google-spacing / 4  $google-spacing rgba($color-base, .2);
+$shadow-hover: 0 $google-spacing / 2  $google-spacing * 2 rgba($color-base, .3);
+$shadow-modal: 0 $google-spacing $google-spacing * 3 rgba($color-base, .4);
+
+// from knb
+$aside-max: $google-spacing * 80; // 640px
+$card-width: $google-spacing * 34.5; // 276px
+
+$z-aside: $z-fold * 2;
+$z-content: $z-fold + 5;
+
+$topbar-height: $google-spacing;

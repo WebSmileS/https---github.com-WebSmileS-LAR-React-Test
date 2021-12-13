@@ -1,0 +1,27 @@
+.kui-button-dropdown {
+    display: inline-block;
+
+    &__item {
+        .kui-button__icon {
+            color: calc-color(tint, $color-base, 30);
+        }
+
+        .kui-button-dropdown--opened > & {
+            color: $color-base;
+            background: calc-color(fade, $color-background, 50);
+            
+            .kui-button__icon {
+                color: $color-base;
+            }
+        }
+    }
+
+    .kui-dropdown__item {
+        min-width: $google-spacing * 25;
+    }
+
+    &.kui-button-dropdown--disabled:not(.kui-button-dropdown--opened) {
+        cursor: default;
+        pointer-events: none;
+    }
+}

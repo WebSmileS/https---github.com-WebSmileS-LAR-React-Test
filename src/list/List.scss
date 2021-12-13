@@ -1,0 +1,370 @@
+@import '../core/sass';
+
+$listWidth: $google-spacing * 39.5; // 316 px
+$stripColor: calc-color(fade, $color-base, 10);
+
+.list-component {
+  position: relative;
+  flex: 0 0 $listWidth;
+  width: 100%;
+  margin-right: $google-spacing;
+  height: calc(100% - 4px); // отступ перед скролом
+  @include transition(background, .2s);
+  border-radius: $base-radius;
+
+  .page--lists-bg & {
+    background: calc-color(fade, $color-white, 20);
+  }
+
+  .page--lists-bg.page--theme-decorated.page--classic & {
+    background: calc-color(fade, $color-white, 10);
+
+    &--active,
+    &--hovered,
+    &.list-component--drag-over {
+      background: calc-color(fade, $color-white, 20);
+    }
+  }
+
+  .page &--active,
+  .page &--hovered,
+  .page &.list-component--drag-over {
+    background: calc-color(fade, $color-white, 40);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.list-component--folded {
+    position: relative;
+    flex-basis: $google-spacing * 7.5;
+    width: $google-spacing * 7.5;
+  }
+}
+
+@keyframes list-animation {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: $google-spacing * 4 $google-spacing * 2
+  }
+}
+
+.list-component__saving {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  @include transition;
+  pointer-events: auto;
+  cursor: progress;
+  background-size: $google-spacing*2 $google-spacing*2;
+  background-image: linear-gradient(45deg,
+          $stripColor 25%,
+          transparent 25%,
+          transparent 50%,
+          $stripColor 50%,
+          $stripColor 75%,
+          transparent 75%,
+          transparent
+  );
+  animation: list-animation 0.4s linear infinite;
+}
+
+.list-cards {
+  position: relative;
+  height: 100%;
+  width:100%;
+  min-height: $base-spacing * 2;
+  max-height: calc(100% - #{$google-spacing * 7});
+  margin: 0;
+  z-index: 0;
+
+
+  .list-component--folded & {
+      display: none;
+  }
+
+  .list-component--add-card-opened & {
+      max-height: calc(100% - #{$google-spacing * 13.5});
+  }
+}
+
+.list-cards__scroll {
+  // width: $google-spacing * 39 !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  max-height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.list-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: $google-spacing * 7;
+  padding: $google-spacing * 2 $google-spacing * 3 $google-spacing $google-spacing * 2;
+
+
+  .list-component--folded & {
+      flex-direction: column;
+      align-items: baseline;
+      height: $google-spacing * 41.5;
+      padding: 0;
+      overflow: hidden;
+      width: auto;
+  }
+  .list-details__actions {
+      opacity: 0;
+      @include transition(all, .5s);
+      .kui-button-dropdown {
+          height: $google-spacing * 3
+      }
+      .page--theme-decorated & {
+          color: $color-white !important;
+          .kui-icon--dots {
+              color: $color-white !important;
+          }
+      }
+      .list-component--hovered & {
+          opacity: 1;
+      }
+  }
+  .list-header__name {
+      cursor: pointer;  // применяем тут, что бы перебить курсор из RBD который применряется к dragHandleProps элементу
+  }
+}
+
+.list-header-actions {
+  display: inline-flex;
+  align-items: center;
+}
+
+.list-component__sort-icon {
+  flex: 0 0 $google-spacing * 3;
+  height: $google-spacing * 3;
+  margin-right: $google-spacing;
+
+  .list-component--folded & {
+      display: none;
+  }
+
+  .page--theme-decorated.page--classic & {
+      color: $color-white;
+  }
+}
+
+.list-header__name {
+  @extend .text-ellipsis;
+  width: 100%;
+  margin: #{-$google-spacing * 2} 0 #{-$google-spacing} #{-$google-spacing * 2};
+  padding: $google-spacing * 2 $google-spacing * 0.5 $google-spacing $google-spacing * 2;
+  line-height: $google-spacing * 4;
+  font-size: $h5-size;
+  font-weight: bold;
+  color: $color-base;
+  @include transition(color);
+
+  .page--theme-decorated.page--classic & {
+      color: $color-white !important;
+  }
+
+  .list-component--folded & {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      width: $google-spacing * 34.5;
+      margin: 0;
+      padding: 0;
+      transform: rotate(-90deg);
+      transform-origin: 0 0;
+      line-height: $google-spacing * 7.5;
+      text-align: right;
+  }
+}
+
+.list-header__counter {
+  color: calc-color(fade, $color-base, 50);
+  @include transition;
+
+  .page--theme-decorated & {
+      color: $color-white;
+  }
+
+  .page--classic &--filled {
+      color: #f5c842;
+  }
+  .page--classic &--overfilled {
+      color: $color-red;
+  }
+
+  .no-touch .list-component--hovered &,
+  .board--with-filter-panel &,
+  .no-touch .board--with-filter-panel.board--with-filter-panel--disabled .list-component--hovered &,
+  .board--with-filter-panel--search &,
+  &.list-header__counter--empty {
+      display: none;
+  }
+  .board--with-filter-panel.board--with-filter-panel--disabled & {
+      display: inline-flex;
+  }
+
+  .board--with-filter-panel.board--with-filter-panel--disabled .list-component--folded & {
+      display: block;
+  }
+}
+
+.list-header__counter-filter {
+  display: none;
+  @include transition;
+  .no-touch .list-component--hovered &,
+  .no-touch .board--with-filter-panel .list-component--hovered,
+  .board--with-filter-panel.board--with-filter-panel--disabled & {
+      display: none;
+  }
+  .board--with-filter-panel &,
+  .board--with-filter-panel--search & {
+      display: block;
+  }
+
+  span {
+      color: $color-white;
+      padding: $google-spacing * 0.25 $google-spacing * 0.5;
+      border-radius: $small-radius;
+      background-color: $color-base;
+  }
+}
+
+.list-header__counter,
+.list-header__counter-filter {
+  .list-component--folded & {
+      position: absolute;
+      top: $google-spacing * 2.5;
+      right: 0;
+      left: 0;
+      text-align: center;
+  }
+}
+
+.list-header__fold {
+  width: 0;
+  min-width: 0;
+  height: $google-spacing * 3;
+  opacity: 0;
+  pointer-events: none;
+  color: calc-color(fade, $color-base, 50);
+  transition: none;
+
+  .page--theme-decorated.page--classic & {
+      color: $color-white;
+  }
+
+  .kui-icon {
+      opacity: 1!important;
+  }
+
+  &:hover {
+      color: $color-base;
+  }
+
+  .touch & {
+      margin-left: $google-spacing;
+  }
+
+  .touch &,
+  .list-component--hovered & {
+      width: $google-spacing * 3;
+      min-width: $google-spacing * 3;
+      opacity: 1;
+      pointer-events: auto;
+  }
+
+  .list-component--folded & {
+      position: absolute;
+      top: $google-spacing * 2.5;
+      left: 0;
+      width: 100%;
+      margin: 0;
+  }
+
+  .touch .list-component--folded & {
+      top: 0;
+  }
+}
+
+.list-header__add-card,
+.list-header__add-card-cancel {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: $google-spacing * 4;
+  min-width: $google-spacing * 4;
+  height: $google-spacing * 4;
+  margin-left: $google-spacing;
+  color: calc-color(fade, $color-base, 60);
+  background: calc-color(fade, $color-base, 10);
+  border-radius: $base-radius;
+  @include transition;
+
+  &:before {
+      width: $google-spacing * 7;
+      height: $google-spacing * 7;
+      border-radius: $google-spacing * 7;
+  }
+
+  &:hover {
+      color: calc-color(fade, $color-base, 90);
+      background: calc-color(fade, $color-base, 10);
+  }
+
+  .kui-icon {
+      opacity: 1!important;
+  }
+
+  .page--theme-decorated.page--classic & {
+      color: $color-white;
+      background: calc-color(fade, $color-white, 30);
+
+      &:hover {
+          background: calc-color(fade, $color-white, 50);
+      }
+  }
+
+  .list-component--folded & {
+      display: none;
+  }
+}
+
+.list-header__add-card-cancel {
+  display: none;
+}
+
+.list-header__description-icon {
+  margin-right: $google-spacing;
+
+  .list-component--folded & {
+      display: none;
+  }
+
+  .page--theme-decorated.page--classic & {
+      color: $color-white;
+  }
+}
+
+.list-component--add-card-opened {
+  .list-header__add-card-cancel {
+      display: block;
+  }
+
+  .list-header__add-card {
+      display: none;
+  }
+}
+
+.list-header__done-icon {
+  transform: translateX(-$google-spacing * .5);
+}

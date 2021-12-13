@@ -1,0 +1,12 @@
+
+.kui-label {
+    position: relative;
+    display: block;
+
+    &__item {
+        display: block;
+        font-size: $nano-size;
+        font-weight: bold;
+        color: calc-color(fade, $color-base, 50);
+    }
+}

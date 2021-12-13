@@ -1,0 +1,22 @@
+
+.kui-buttons_group {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -$google-spacing;
+    margin-left: -$google-spacing;
+
+    & > * {
+        margin-top: $google-spacing;
+        margin-left: $google-spacing;
+    }
+    
+    &--size_large {
+        margin-top: -$google-spacing * 2;
+        margin-left: -$google-spacing * 2;
+
+        & > * {
+            margin-top: $google-spacing * 2;
+            margin-left: $google-spacing * 2;
+        }
+    }       
+}

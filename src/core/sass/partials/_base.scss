@@ -1,0 +1,445 @@
+/*  ==================================================================  *\
+    02. Base styles
+\*  ==================================================================  */
+
+/*  Main
+    ==================================================================  */
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html, body {
+    position: relative;
+    height: 100%;
+}
+
+html {
+    font-size: $base-font-size;
+    font-family: $base-font-family;
+    line-height: $base-line-height;
+    overflow: hidden;
+    overflow-x: visible;
+    overflow-y: visible;
+    scroll-behavior: unset;
+
+    &.mac.html--scroll,
+    &.scroll-hidden.html--scroll,
+    &.scroll-visible.html--scroll.touch:not(.html--scroll_disabled) {
+        overflow-x: visible;
+    }
+
+    &.html--scroll {
+        -webkit-overflow-scrolling: touch;
+
+        @media (max-width: $media-tablet) {
+            overflow-x: visible;
+            overflow-y: visible;
+        }
+    }
+}
+
+body {
+    overflow: visible !important;
+}
+
+html,
+button,
+input,
+select,
+textarea {
+    color: $color-base;
+    fill: currentColor;
+}
+
+/*  Links  */
+
+a {
+    color: $color-purple;
+    cursor: pointer;
+    &:hover {
+        color: calc-color(tint, $color-purple, 90);
+        text-decoration: none;
+    }
+}
+
+/*  Headings
+    ==================================================================  */
+
+h1, h2,
+h3, h4,
+h5, h6 {
+    margin: 0 0 $google-spacing * 2;
+    line-height: $base-spacing;
+    font-weight: 400;
+}
+
+h1 {
+    font-size: $h1-size;
+    line-height: $base-spacing * 2;
+    margin-top: $base-spacing;
+}
+
+h2 {
+    font-size: $h2-size;
+    line-height: $base-spacing * 1.5;
+}
+
+h3 {
+    font-size: $h3-size;
+    line-height: $base-spacing * 1.25;
+}
+
+h4 {
+    font-size: $h4-size;
+}
+
+h5 {
+    font-size: $base-font-size;
+    font-weight: bold;
+    line-height: 1.375;
+}
+
+h6 {
+    font-size: $h6-size;
+}
+
+/*  Paragraphs and inline elements
+    ==================================================================  */
+
+p, blockquote {
+    margin: 0 0 $base-spacing;
+}
+
+blockquote {
+    padding-left: $half-base-spacing;
+    border-left: 3px solid;
+}
+
+/*  A better looking default horizontal rule  */
+
+
+hr {
+    display: block;
+    height: 1px;
+    margin: $half-base-spacing 0;
+    padding: 0;
+    border: 0;
+    box-shadow: calc-color(tint, $color-base, 20) 0px -1px;
+}
+
+abbr[title] {
+    cursor: help;
+}
+
+del {
+    color: calc-color(tint, $color-black, 20);
+    vertical-align: baseline;
+}
+
+/*  Smallprint
+    ==================================================================  */
+
+small {
+    font-size: $milli-size;
+}
+
+sub,
+sup {
+    font-size: $nano-size;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.75em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/*  Code
+    ==================================================================  */
+
+code,
+kbd,
+pre,
+samp {
+    font-family: $font-family-monospace;
+    font-size: $base-font-size - 1;
+}
+
+pre, code {
+    background: calc-color(tint, $color-base, 90);
+    border-radius: $small-radius;
+    color: $color-white;
+}
+
+code {
+    padding: 2px ($half-base-spacing / 2);
+}
+
+pre {
+    margin: 0 0 $base-spacing;
+    padding: 0 ($half-base-spacing / 2);
+    code {
+        padding: 0;
+        background: none;
+    }
+}
+
+/*  Lists
+    ==================================================================  */
+
+ul, ol {
+    margin: 0 0 $base-spacing;
+    padding-left: $base-spacing * 2;
+    ul, ol {
+        margin: $base-spacing 0;
+    }
+    li {
+        margin: 0 0 $half-base-spacing;
+    }
+    li:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/*  Definition list  */
+
+dl {
+    margin: 0 0 $base-spacing;
+    dt {
+        font-weight: 700;
+    }
+    dd {
+        margin: 0 0 $half-base-spacing;
+        padding-left: 0;
+    }
+}
+
+/*  Images
+    ==================================================================  */
+
+/*  Remove the gap between images and the bottom of their containers: h5bp.com/i/440  */
+
+img {
+    vertical-align: middle;
+    max-width:100%;
+}
+
+img[width],
+img[height]{
+    max-width:none;
+}
+
+/*  Images in `figure` elements.  */
+
+figure > img {
+    display:block;
+}
+
+/*  Forms
+    ==================================================================  */
+
+/*  Remove default fieldset styles.  */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*  Allow only vertical resizing of textareas.  */
+
+textarea {
+    resize: vertical;
+}
+
+::placeholder {
+    line-height: normal;
+}
+
+
+/*  Other
+    ==================================================================  */
+
+::-webkit-input-placeholder {
+    color: calc-color(fade, $color-base, 50);
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: calc-color(fade, $color-base, 50);
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: calc-color(fade, $color-base, 50);
+}
+
+:-ms-input-placeholder {
+    color: calc-color(fade, $color-base, 50);
+}
+
+.no-mac.scroll-visible {
+
+    /* Let's get this party started */
+    ::-webkit-scrollbar {
+        width: $google-spacing * 2;
+        height: $google-spacing * 2;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' style='fill:rgba(38,45,56,.1)'/%3E%3C/svg%3E") 50% 50% no-repeat;
+        background-size: calc(100% - 8px) calc(100% - 8px);
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' style='fill:rgba(38,45,56,.3)'/%3E%3C/svg%3E") 50% 50% no-repeat;
+        background-size: calc(100% - #{$google-spacing}) calc(100% - #{$google-spacing});
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-size: 100% 100%;
+        border-radius: $base-radius;
+    }
+    
+    ::-webkit-scrollbar-corner {
+        background: calc-color(fade, $color-base, 0);
+    }
+
+    .page--theme-decorated.page--classic {
+        main ::-webkit-scrollbar-track {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' style='fill:rgba(255,255,255,.1)'/%3E%3C/svg%3E");
+        }
+
+        main ::-webkit-scrollbar-thumb {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' style='fill:rgba(255,255,255,.5)'/%3E%3C/svg%3E");
+        }
+            
+    }
+
+    .page--theme-decorated.page--classic main .list-cards__dropdown-scroll {
+        ::-webkit-scrollbar-track {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' style='fill:rgba(38,45,56,.1)'/%3E%3C/svg%3E");
+        }
+        ::-webkit-scrollbar-thumb {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' style='fill:rgba(38,45,56,.3)'/%3E%3C/svg%3E");
+        }
+    }
+}
+
+.mac.scroll-visible {
+    ::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: $google-spacing;
+        height: $google-spacing;
+    }
+    ::-webkit-scrollbar-thumb {
+        border-radius: $google-spacing;
+        background: calc-color(fade, $color-base, 50);
+        box-shadow: 0 0 1px calc-color(fade, $color-white, 50);
+    }
+
+    .page--theme-decorated.page--classic {
+        main ::-webkit-scrollbar-thumb {
+            background: calc-color(fade, $color-white, 50);
+        }
+            
+    }
+}
+
+.react-view {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid the additional HTTP request:
+   http://www.phpied.com/delay-loading-your-print-css/
+   ========================================================================== */
+
+@media print {
+//     *,
+//     *:before,
+//     *:after {
+//         background: transparent !important;
+//         color: #000 !important; /* Black prints faster:
+//                                    http://www.sanbeiji.com/archives/953 */
+//         box-shadow: none !important;
+//         text-shadow: none !important;
+//     }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links that are fragment identifiers,
+     * or use the `javascript:` pseudo protocol
+     */
+
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    /*
+     * Printing Tables:
+     * http://css-discuss.incutio.com/wiki/Printing_Tables
+     */
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+::selection {
+	background: $color-purple;
+	color: $color-white;
+}
+
+*[tabindex] {
+    outline: none;
+}
